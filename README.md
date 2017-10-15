@@ -9,6 +9,7 @@
 <a href="http://www.lightsout.ir/help.html"><img src="https://img.shields.io/badge/GAME-HELP-blue.svg"></a>
 <a href="http://www.lightsout.ir/donate.html"><img src="https://img.shields.io/badge/SUPPORT-DONATE-red.svg"></a>
 <a href="https://www.codacy.com/app/sepand-haghighi/lightsout?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=sepandhaghighi/lightsout&amp;utm_campaign=Badge_Grade"><img src="https://api.codacy.com/project/badge/Grade/fcea9a300b484acaae612ee22cdea87b"/></a>
+<a href="https://github.com/sepandhaghighi/lightsout/blob/gh-pages/LICENSE"><img src="https://img.shields.io/github/license/mashape/apistatus.svg"/></a>
 
 </div>
 
@@ -26,7 +27,7 @@
 
 ## Contributing
 
-Changes and improvements are more than welcome! Feel free to fork and open a pull request. Please make your changes in a specific branch and request to pull into `master`! If you can, please make sure the game fully works before sending the PR, as that will help speed up the process.
+Changes and improvements are more than welcome! Feel free to fork and open a pull request. Please make your changes in a specific branch and request to pull into `gh-pages`! If you can, please make sure the game fully works before sending the PR, as that will help speed up the process.
 
 # Donations
 

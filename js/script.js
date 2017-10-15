@@ -15,8 +15,11 @@ var total_move = 0;
 var overall_move=0;
 var restart_flag = 0;
 var overall_reset=0;
+var hint_counter=0;
+var total_hint_counter=0;
 var no_move_counter=0;
 var random_init=1;
+var music_temp=[];
 var complete_game=0;
 var hr = (new Date()).getHours();
 var music_list=["files/bensound-anewbeginning.mp3","files/bensound-happiness.mp3","files/bensound-tenderness.mp3","files/bensound-cute.mp3","files/bensound-buddy.mp3"];
@@ -24,12 +27,20 @@ var music_random=Math.floor(Math.random()*music_list.length);
 var audio = new Audio(music_list[music_random]);
 var play_status=false;
 var player_name_object;
+
+
 audio.onended = function(){
+    music_temp.push(music_list.splice(music_random,1));
     music_random=Math.floor(Math.random()*music_list.length);
     audio.src=music_list[music_random];
     audio.load();
+    if(music_list.length==1){
+       music_list.push.apply(music_list,music_temp);
+        music_temp=[];
+    } 
     audio.play();
 };
+
 // var rythm = new Rythm();
     // rythm.setMusic("files/rythmD.mp3");
 // rythm.addRythm('lightsout', 'pulse', 0, 10, {
@@ -62,13 +73,59 @@ function audio_control(){
         document.getElementById("sound_on_off").innerHTML=sound_on;
     }
 }
+
+function local_save(s,m,r,c,h){
+    if (typeof(Storage) !== "undefined") {
+        localStorage.setItem("score", s);
+        localStorage.setItem("move", m);
+        localStorage.setItem("reset", r);
+        localStorage.setItem("complete", c);
+        localStorage.setItem("hint",h);
+    }
+    
+}
+function local_load(){
+     if (typeof(Storage) !== "undefined") {
+        complete_game=parseInt(localStorage.getItem("complete"));
+        if (complete_game){
+            best_score=parseInt(localStorage.getItem("score"));
+            if (best_score==NaN){
+                best_score=0;
+            }
+            overall_move=parseInt(localStorage.getItem("move"));
+            if (isNaN(overall_move)){
+                overall_move=0;
+            }
+            overall_reset=parseInt(localStorage.getItem("reset")); 
+            if (isNaN(overall_reset)){
+                overall_reset=0;
+            }
+            total_hint_counter=parseInt(localStorage.getItem("hint"));
+            if (isNaN(total_hint_counter)){
+                total_hint_counter=0;
+            }
+            document.getElementById("score_button").innerHTML="SCORE("+best_score.toString()+")";
+            document.getElementById("score_button").style.display="inline";
+        }
+         else{
+             complete_game=0;
+         }
+    }
+    
+    
+}
 function redirect(flag){
     switch(flag){
         case 1:
             window.open("https://saythanks.io/to/lightsout");
             break;
         case 2:
-            swal("Bitocin Wallet","1XGr9qbZjBpUQJJSB6WtgBQbDTgrhPLPA");
+            swal({
+                
+            title:"Bitocin Wallet",
+            text:"1XGr9qbZjBpUQJJSB6WtgBQbDTgrhPLPA",
+            customClass: 'swal-bitcoin'
+            });
             break;
         case 3:
             window.open("https://beerpay.io/sepandhaghighi/lightsout");
@@ -86,17 +143,22 @@ function redirect(flag){
             window.open("index.html","_self")
             break;
         case 8:
+            hint_counter=hint_counter+1;
+            total_hint_counter=total_hint_counter+1;
+            document.getElementById("Hint").innerHTML = "Hint" + " (" + hint_counter + ")";
                         swal({
     title: "Hint",
-    text: '<table align="center" style="font-size:30px"><tr style="font-size:31px"><th >Bottom</th><th >Top</th></tr><tr><td>O---O</td><td>OO---</td></tr><tr><td>-O-O-</td><td>O--O-</td></tr><tr><td>OOO--</td><td>-O---</td></tr><tr><td>--OOO</td><td>---O-</td></tr><tr><td>O-OO-</td><td>----O</td></tr><tr><td>-OO-O</td><td>O----</td></tr><tr><td>OO-OO</td><td>--O--</td> </tr></table>',
+    text: '<table align="center" style="font-size:26px"><tr style="font-size:31px"><th >Bottom</th><th >Top</th></tr><tr><td>O---O</td><td>OO---</td></tr><tr><td>-O-O-</td><td>O--O-</td></tr><tr><td>OOO--</td><td>-O---</td></tr><tr><td>--OOO</td><td>---O-</td></tr><tr><td>O-OO-</td><td>----O</td></tr><tr><td>-OO-O</td><td>O----</td></tr><tr><td>OO-OO</td><td>--O--</td> </tr></table>',
     html: true
 });
             break;
         case 9:
             if (complete_game>0){
             swal({
-                    title:"Score",
-                    text: "Best Score : "+best_score.toString()+"\nGame : "+complete_game.toString()+"\nTotal Move : "+overall_move.toString()+"\nTotal Reset : "+overall_reset.toString()
+                    title:"Score!",
+                    text: '<table align="center" style="font-size:26px"><tr><td>Best Score</td><td>'+best_score.toString()+'</td></tr><tr><td>Game</td><td>'+complete_game.toString()+'</td></tr><tr><td>Total Move</td><td>'+overall_move.toString()+'</td></tr><tr><td>Total Reset</td><td>'+overall_reset.toString()+'</td></tr><tr><td>Total Hint</td><td>'+total_hint_counter.toString()+'</td></tr></table>',
+                    html: true,
+                    customClass: 'swal-score'
                     });
             }
                     break;
@@ -128,8 +190,9 @@ function getname(){
   //player_name_object=document.getElementById("player_name");
   //player_name_object.innerHTML=player_name;
   //player_name_object.style.color=color;
+local_load();
 swal({
-    title: "Help",
+    title: "Hi",
     text: '<p style="text-align:justify">The game consists of a 5 by 5 grid of lights. When the game starts, a random number or a stored pattern of these lights is switched on. Pressing any of the lights will toggle it and the four adjacent lights. The goal of the puzzle is to switch all the lights off, preferably in as few button presses as possible. After first touch you have 3 minutes to win as many as possible ;-)</p>',
     html: true,
     customClass: 'swal-wide'
@@ -305,7 +368,11 @@ function(isConfirm){
     else{
             reset = document.getElementById("reset");
             reset.innerHTML = "Reset!";
+            document.getElementById("Hint").innerHTML = "Hint";
+            overall_reset=overall_reset-reset_counter;
+            total_hint_counter=total_hint_counter-hint_counter;
             reset_counter=0;
+            hint_counter=0;
     }
   } else {
   }
@@ -343,14 +410,23 @@ function startTimer(duration, display) {
                     best_score=score;
                 }
                 complete_game=complete_game+1;
+                document.getElementById("score_button").innerHTML="SCORE("+best_score.toString()+")";
+                local_save(best_score,overall_move,overall_reset,complete_game,total_hint_counter);
                 if (complete_game==1){
                     document.getElementById("score_button").style.display="inline";
                 }
                 swal({
                     title:"Time's Up",
-                    text: "Score : "+score.toString()+"\nReset : "+reset_counter.toString()+"\nTotal Move : "+total_move.toString(),
+                    text: '<table align="center" style="font-size:26px"><tr><td>Score</td><td>'+score.toString()+'</td></tr><tr><td>Reset</td><td>'+reset_counter.toString()+'</td></tr><tr><td>Move</td><td>'+total_move.toString()+'</td></tr><tr><td>Hint</td><td>'+hint_counter.toString()+'</td></tr></table>',
+                    html: true,
+                    customClass: 'swal-score',
                     imageUrl: "images/timeup.png"
                     });}
+            else{
+                overall_move=overall_move-total_move;
+                overall_reset=overall_reset-reset_counter;
+                total_hint_counter=total_hint_counter-hint_counter;
+            }
             timer = duration;
             restart_config(display);
             clearInterval(interval_id);
@@ -369,6 +445,8 @@ function restart_config(display){
     score=0;
     reset = document.getElementById("reset");
             reset.innerHTML = "Reset!";
+            document.getElementById("Hint").innerHTML = "Hint";
+            hint_counter=0;
             reset_counter=0;
      first_move=true;
             restart_flag=0;

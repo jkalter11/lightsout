@@ -6,6 +6,36 @@
     font-family: "sacramento";
     src: url("../fonts/Sacramento-Regular.ttf");
 }
+
+.sweet-overlay {
+  background-color: rgba(44, 41, 41, 0.6)!important;
+}
+
+.sweet-alert p{
+    color: black !important;
+    font-family: "julius";
+}
+.sweet-alert{
+background-color: rgba(204, 229, 135, 0.94) !important;
+  border: 3px solid white !important;
+}
+.sweet-alert h2{
+  color: black !important;
+  margin: 0px;
+  font-size: 16px;
+  box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.21);
+  margin-bottom: 28px;
+   font-family: "julius";
+
+}
+.swal-score td{
+    padding: auto;
+    text-align: center !important;
+}
+.swal-score table{
+    border: 1px black solid;
+    border-collapse: collapse;
+}
 body{
     overflow-x: hidden;
     margin: 0px;
@@ -24,6 +54,7 @@ body{
 }
 .swal-wide{
     top: 25% !important;
+    text-align: center;
 }
 .smartbanner {
     display: none;
@@ -218,6 +249,7 @@ h4{
     width: 550px;
     height: 550px;
     margin: auto;
+    padding: 2px;
     margin-top: 40px;
     box-shadow: 0 2px 2px 0 rgba(0, 0, 0, .14), 0 3px 1px -2px rgba(0, 0, 0, .2), 0 1px 5px 0 rgba(0, 0, 0, .12);
 }
@@ -295,32 +327,42 @@ button {
     -moz-transition: 0.08s ease-in;
     -webkit-transition: 0.08s ease-in;
 }
-@media all and (max-width: 512px) {
+@media all and (max-width: 1024px) {
+    .swal-bitcoin p{
+        font-size: 13px !important;
+    }
+    .sweet-alert p{
+        font-size-adjust: auto !important;
+    }
     #saythanks{
         margin-bottom: 93px;
     }
-    #Hint{
+    #Restart{
         margin-bottom: 93px;
     }
     .donate_image{
-    width: 90%;
-    height: 50%;
+    width: 550px;
+    height: auto;
 }
     
-    button{
-        width: 300px;
+    .header button{
+        width: 550px;
+        margin-bottom: 20px;
+    }
+    .button_section button{
+        width: 550px;
         margin-bottom: 20px;
     }
     .lightsout {
         border: solid 1px black;
-        height: 300px;
-        width: 300px;
+        height: 550px;
+        width: 550px;
         table-layout: fixed;
         margin: auto;
         margin-top: 40px;
     }
     .help {
-        width: 95%;
+        width: 550px;
         font-size: 34px;
         text-align: center;
         hyphens: auto;
@@ -345,7 +387,7 @@ button {
         font-size: 20px;
         margin-bottom: 40px;
         margin-top: 40px;
-        width: 300px;
+        width: 550px;
     }
     .score td {
         padding-right: 0px;
@@ -355,15 +397,52 @@ button {
         width: 200px;
     }
     .help_image{
-    width: 300px;
-    height: 300px;
+    width: 550px;
+    height: 550px;
     
 }
     .hint_table{
     width: 90%;
 }
 }
+
+@media all and (max-width: 512px) {
+    
+    .help {
+        width: 300px;
+
+    }
+        .donate_image{
+    width: 300px;
+    height: auto;
+}
+    
+    .lightsout{
+        
+        width: 300px;
+        height: 300px;
+    }
+     .header button{
+        width: 300px;
+    }
+    .button_section button{
+        width: 300px;
+    }
+    
+        .help_image{
+    width: 300px;
+    height: 300px;
+    
+}
+    
+     .score {
+        width: 300px;
+    }
+    
+    
+}
 @media all and (max-width: 512px)  and (orientation:landscape){
+    
     .lightsout{
         
         width: 550px;
@@ -375,6 +454,7 @@ button {
         height: 550px;
     
 }
+
 }
 
 .reset {
